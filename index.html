@@ -879,7 +879,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         let currentUser = urlParams.get('user');
         if (!currentUser || (currentUser !== 'her' && currentUser !== 'his')) {
-            const choice = prompt('👋 Кто ты?\n\nВведи "her" (Пупуня) или "his" (Пупунь)');
+            const choice = prompt('👋 Кто ты?\n\nВведи "her" (Влада) или "his" (Никита)');
             currentUser = (choice === 'her' || choice === 'his') ? choice : 'her';
             window.history.replaceState({}, '', `${window.location.pathname}?user=${currentUser}`);
         }
@@ -955,9 +955,9 @@
                     <span class="bubble-text" id="leftStatusText">${isHer ? '✨ Хочу обнимашек ✨' : '🍜 Готовлю ужин 🍜'}</span>
                 </div>
                 <div class="cat-avatar" id="leftCatAvatar">
-                    <img id="leftCatImg" src="${isHer ? herAvatar : hisAvatar}" alt="${isHer ? 'Пупуня' : 'Пупунь'}">
+                    <img id="leftCatImg" src="${isHer ? herAvatar : hisAvatar}" alt="${isHer ? 'Влада' : 'Никита'}">
                 </div>
-                <div class="cat-name">${isHer ? 'Пупуня' : 'Пупунь'}</div>
+                <div class="cat-name">${isHer ? 'Владая' : 'Никита'}</div>
             `;
             
             const rightCatContent = `
@@ -965,9 +965,9 @@
                     <span class="bubble-text" id="rightStatusText">${isHer ? '🍜 Готовлю ужин 🍜' : '✨ Хочу обнимашек ✨'}</span>
                 </div>
                 <div class="cat-avatar" id="rightCatAvatar">
-                    <img id="rightCatImg" src="${isHer ? hisAvatar : herAvatar}" alt="${isHer ? 'Пупунь' : 'Пупуня'}">
+                    <img id="rightCatImg" src="${isHer ? hisAvatar : herAvatar}" alt="${isHer ? 'Никита' : 'Влада'}">
                 </div>
-                <div class="cat-name">${isHer ? 'Пупунь' : 'Пупуня'}</div>
+                <div class="cat-name">${isHer ? 'Никита' : 'Влада'}</div>
             `;
             
             leftContainer.innerHTML = leftCatContent;
@@ -999,7 +999,7 @@
             const grid = document.getElementById('avatarGrid');
             const currentAvatar = owner === 'her' ? herAvatar : hisAvatar;
             const avatarsList = owner === 'her' ? HER_AVATARS : HIS_AVATARS;
-            const ownerName = owner === 'her' ? 'Пупуня' : 'Пупунь';
+            const ownerName = owner === 'her' ? 'Влада' : 'Никита';
             avatarModalTitle.innerHTML = `🐱 Выбери образ для ${ownerName} 🐱`;
             
             grid.innerHTML = avatarsList.map(av => `
@@ -1212,7 +1212,7 @@
             const active = list.filter(i => !i.done);
             if (!active.length) { alert(`✨ Нет активных записей в "${typeName}"`); return; }
             const rand = active[Math.floor(Math.random() * active.length)];
-            const authorName = rand.author === 'her' ? 'Пупуня' : 'Пупунь';
+            const authorName = rand.author === 'her' ? 'Влада' : 'Никита';
             alert(`🎉 ${typeName}: ${rand.name}${rand.genre ? ` (${rand.genre})` : ''}\n✨ Добавил(а): ${authorName}`);
         }
         
@@ -1230,7 +1230,7 @@
                     <div class="item-info">
                         <span class="item-name">${escapeHtml(f.name)}</span>
                         <span class="item-genre">${genreIcons[f.genre] || '🎬'} ${escapeHtml(f.genre || 'Без жанра')}</span>
-                        <span class="author-badge ${f.author === 'her' ? 'author-her' : 'author-his'}">${f.author === 'her' ? '🐱‍👤 Пупуня' : '🐱‍🐉 Пупунь'}</span>
+                        <span class="author-badge ${f.author === 'her' ? 'author-her' : 'author-his'}">${f.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
                     </div>
                     <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
                 </li>
@@ -1243,7 +1243,7 @@
                 <li data-id="${c.id}" data-type="cooking" class="${c.done ? 'done' : ''}">
                     <div class="item-info">
                         <span class="item-name">${escapeHtml(c.name)}</span>
-                        <span class="author-badge ${c.author === 'her' ? 'author-her' : 'author-his'}">${c.author === 'her' ? '🐱‍👤 Пупуня' : '🐱‍🐉 Пупунь'}</span>
+                        <span class="author-badge ${c.author === 'her' ? 'author-her' : 'author-his'}">${c.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
                     </div>
                     <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
                 </li>
@@ -1256,7 +1256,7 @@
                 <li data-id="${p.id}" data-type="places" class="${p.done ? 'done' : ''}">
                     <div class="item-info">
                         <span class="item-name">${escapeHtml(p.name)}</span>
-                        <span class="author-badge ${p.author === 'her' ? 'author-her' : 'author-his'}">${p.author === 'her' ? '🐱‍👤 Пупуня' : '🐱‍🐉 Пупунь'}</span>
+                        <span class="author-badge ${p.author === 'her' ? 'author-her' : 'author-his'}">${p.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
                     </div>
                     <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
                 </li>
