@@ -1,11 +1,11 @@
 import { HER_AVATARS, HIS_AVATARS, GENRES, GENRE_ICONS } from './config.js';
-import { db, filmsCol, cookingCol, placesCol, statusCol, avatarsCol, onSnapshot, query, orderBy, getDocs, updateDoc, doc } from './firebase.js';
+import { db, filmsCol, cookingCol, placesCol, statusCol, avatarsCol, onSnapshot, query, orderBy, getDocs, updateDoc, doc, addDoc } from './firebase.js';
 import { heartBurst, showToast, randomFromList, escapeHtml } from './utils.js';
 import { 
-    films, cooking, places, currentGenreFilter, activeTab, herAvatar, hisAvatar, isHer, currentUser,
+    films, cooking, places, currentGenreFilter, herAvatar, hisAvatar, isHer, currentUser,
     setUserData, setAvatars, renderFilms, renderCooking, renderPlaces, updateCatAvatars, renderCats 
 } from './ui.js';
-import { setupDeleteModal, handleDelete, addItem, updateAddForm } from './handlers.js';
+import { setupDeleteModal, handleDelete, addItem } from './handlers.js';
 
 const urlParams = new URLSearchParams(window.location.search);
 let user = urlParams.get('user');
@@ -14,11 +14,13 @@ if (!user || (user !== 'her' && user !== 'his')) {
     if (savedUser && (savedUser === 'her' || savedUser === 'his')) {
         user = savedUser;
     } else {
-        user = 'his';
+        user = 'her';
     }
     localStorage.setItem('pupunkas_user', user);
 }
 setUserData(user, user === 'her');
+
+let activeTab = 'films'; 
 
 const filmsListEl = document.getElementById('filmsList');
 const cookingListEl = document.getElementById('cookingList');
@@ -26,9 +28,93 @@ const placesListEl = document.getElementById('placesList');
 const globalAddForm = document.getElementById('globalAddForm');
 const dynamicAddForm = document.getElementById('dynamicAddForm');
 const genreSelect = document.getElementById('genreFilter');
-const toastMessage = document.getElementById('toastMessage');
 
 setupDeleteModal('deleteModal', 'modalConfirm', 'modalCancel');
+
+async function addItemWrapper(collectionRef, name, extra = {}) {
+    if (!name.trim()) return;
+    try {
+        await addDoc(collectionRef, {
+            name: name.trim(),
+            done: false,
+            createdAt: new Date(),
+            author: currentUser,
+            ...extra
+        });
+        showToast(`✅ Добавлено!`, 'toastMessage', 'closeToastBtn');
+    } catch (error) {
+        console.error('Ошибка добавления:', error);
+        showToast(`❌ Ошибка: ${error.message}`, 'toastMessage', 'closeToastBtn');
+    }
+}
+
+function updateAddForm() {
+    console.log('updateAddForm вызван, activeTab =', activeTab); // Отладка
+    
+    if (activeTab === 'films') {
+        dynamicAddForm.innerHTML = `
+            <input type="text" id="newItemInput" placeholder="Название фильма / аниме...">
+            <select id="filmGenre">
+                <option value="Драма">🎭 Драма</option>
+                <option value="Комедия">😂 Комедия</option>
+                <option value="Ужасы">👻 Ужасы</option>
+                <option value="Фэнтези">🐉 Фэнтези</option>
+                <option value="Аниме">🍥 Аниме</option>
+                <option value="Боевик">💥 Боевик</option>
+                <option value="Романтика">💕 Романтика</option>
+                <option value="Триллер">🔪 Триллер</option>
+            </select>
+            <button id="dynamicAddBtn" class="inline-add-btn">+ Добавить фильм</button>
+        `;
+    } else if (activeTab === 'cooking') {
+        dynamicAddForm.innerHTML = `
+            <input type="text" id="newItemInput" placeholder="Блюдо: паста, пицца, рамен...">
+            <button id="dynamicAddBtn" class="inline-add-btn">+ Добавить блюдо</button>
+        `;
+    } else if (activeTab === 'places') {
+        dynamicAddForm.innerHTML = `
+            <input type="text" id="newItemInput" placeholder="Кафе, парк, квест, выставка...">
+            <button id="dynamicAddBtn" class="inline-add-btn">+ Добавить место</button>
+        `;
+    }
+    
+    const addBtn = document.getElementById('dynamicAddBtn');
+    const input = document.getElementById('newItemInput');
+    
+    if (addBtn) {
+        const newAddBtn = addBtn.cloneNode(true);
+        addBtn.parentNode.replaceChild(newAddBtn, addBtn);
+        
+        newAddBtn.onclick = () => {
+            const name = input?.value || '';
+            if (!name.trim()) {
+                showToast(`Введите название!`, 'toastMessage', 'closeToastBtn');
+                return;
+            }
+            
+            if (activeTab === 'films') {
+                const genre = document.getElementById('filmGenre')?.value || 'Драма';
+                addItemWrapper(filmsCol, name, { genre });
+            } else if (activeTab === 'cooking') {
+                addItemWrapper(cookingCol, name);
+            } else if (activeTab === 'places') {
+                addItemWrapper(placesCol, name);
+            }
+            
+            if (input) input.value = '';
+            globalAddForm.classList.remove('show');
+        };
+    }
+    
+    if (input) {
+        input.onkeypress = (e) => { 
+            if (e.key === 'Enter') {
+                const btn = document.getElementById('dynamicAddBtn');
+                if (btn) btn.click();
+            }
+        };
+    }
+}
 
 async function loadAvatars() {
     const snap = await getDocs(avatarsCol);
@@ -89,11 +175,11 @@ genreSelect.addEventListener('change', (e) => {
     renderFilms(filmsListEl); 
 });
 
-document.getElementById('resetFilterBtn')?.addEventListener('click', () => { 
-    genreSelect.value = 'all'; 
-    window.currentGenreFilter = 'all'; 
-    renderFilms(filmsListEl); 
-});
+// document.getElementById('resetFilterBtn')?.addEventListener('click', () => { 
+//     genreSelect.value = 'all'; 
+//     window.currentGenreFilter = 'all'; 
+//     renderFilms(filmsListEl); 
+// });
 
 document.getElementById('randomFilmBtn')?.addEventListener('click', () => 
     randomFromList(films, 'Фильм/аниме', { her: 'Влада', his: 'Никита' })
@@ -101,23 +187,43 @@ document.getElementById('randomFilmBtn')?.addEventListener('click', () =>
 
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
+        // Меняем активный таб
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
+        
+        // Меняем видимую панель
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         const tabId = tab.dataset.tab;
         document.getElementById(`${tabId}Panel`).classList.add('active');
-        window.activeTab = tabId;
-        if (globalAddForm.classList.contains('show')) 
-            updateAddForm(window.activeTab, filmsCol, cookingCol, placesCol, currentUser, globalAddForm, dynamicAddForm, addItem);
+        
+        // Обновляем activeTab
+        activeTab = tabId;
+        
+        // Если форма открыта - обновляем её содержимое
+        if (globalAddForm.classList.contains('show')) {
+            updateAddForm();
+        }
+        
+        console.log('Переключено на вкладку:', activeTab);
     });
 });
 
+
 document.getElementById('globalAddBtn').addEventListener('click', () => {
-    updateAddForm(activeTab, filmsCol, cookingCol, placesCol, currentUser, globalAddForm, dynamicAddForm, addItem);
-    globalAddForm.classList.toggle('show');
+    console.log('Кнопка добавления нажата, activeTab =', activeTab);
+    
     if (globalAddForm.classList.contains('show')) {
-        const input = dynamicAddForm.querySelector('input');
-        if (input) setTimeout(() => input.focus(), 100);
+        globalAddForm.classList.remove('show');
+    } else {
+        // Сначала обновляем форму под текущую вкладку
+        updateAddForm();
+        // Потом открываем
+        globalAddForm.classList.add('show');
+        
+        setTimeout(() => {
+            const input = document.getElementById('newItemInput');
+            if (input) input.focus();
+        }, 100);
     }
 });
 
@@ -131,16 +237,24 @@ document.body.addEventListener('click', async (e) => {
     const action = btn.dataset.action;
     
     let item = null;
-    if (type === 'films') item = films.find(i => i.id === id);
-    else if (type === 'cooking') item = cooking.find(i => i.id === id);
-    else if (type === 'places') item = places.find(i => i.id === id);
-    if (!item) return;
+    let col = null;
+    
+    if (type === 'films') {
+        col = filmsCol;
+        item = films.find(i => i.id === id);
+    } else if (type === 'cooking') {
+        col = cookingCol;
+        item = cooking.find(i => i.id === id);
+    } else if (type === 'places') {
+        col = placesCol;
+        item = places.find(i => i.id === id);
+    }
+    
+    if (!item || !col) return;
     
     if (action === 'toggle') {
-        let col = type === 'films' ? 'films' : type === 'cooking' ? 'cooking' : 'places';
-        await updateDoc(doc(db, col, id), { done: !item.done });
+        await updateDoc(doc(col, id), { done: !item.done });
     } else if (action === 'delete') {
-        let col = type === 'films' ? 'films' : type === 'cooking' ? 'cooking' : 'places';
         await handleDelete(col, id, item.author, currentUser);
     }
 });
