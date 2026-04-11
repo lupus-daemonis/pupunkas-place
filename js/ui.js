@@ -27,7 +27,7 @@ export function renderFilms(filmsListEl) {
             <div class="item-info">
                 <span class="item-name">${escapeHtml(f.name)}</span>
                 <span class="item-genre">${GENRE_ICONS[f.genre] || '🎬'} ${escapeHtml(f.genre || 'Без жанра')}</span>
-                <span class="author-badge ${f.author === 'her' ? 'author-her' : 'author-his'}">${f.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
+                <span class="author-badge ${f.author === 'her' ? 'author-her' : 'author-his'}">${f.author === 'her' ? 'Влада' : 'Никита'}</span>
             </div>
             <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
         </li>
@@ -43,7 +43,7 @@ export function renderCooking(cookingListEl) {
         <li data-id="${c.id}" data-type="cooking" class="${c.done ? 'done' : ''}">
             <div class="item-info">
                 <span class="item-name">${escapeHtml(c.name)}</span>
-                <span class="author-badge ${c.author === 'her' ? 'author-her' : 'author-his'}">${c.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
+                <span class="author-badge ${c.author === 'her' ? 'author-her' : 'author-his'}">${c.author === 'her' ? 'Влада' : 'Никита'}</span>
             </div>
             <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
         </li>
@@ -59,7 +59,7 @@ export function renderPlaces(placesListEl) {
         <li data-id="${p.id}" data-type="places" class="${p.done ? 'done' : ''}">
             <div class="item-info">
                 <span class="item-name">${escapeHtml(p.name)}</span>
-                <span class="author-badge ${p.author === 'her' ? 'author-her' : 'author-his'}">${p.author === 'her' ? '🐱‍👤 Влада' : '🐱‍🐉 Никита'}</span>
+                <span class="author-badge ${p.author === 'her' ? 'author-her' : 'author-his'}">${p.author === 'her' ? 'Влада' : 'Никита'}</span>
             </div>
             <div class="actions"><button class="done-btn" data-action="toggle">✓</button><button class="delete-btn" data-action="delete">✗</button></div>
         </li>
