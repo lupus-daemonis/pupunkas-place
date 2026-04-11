@@ -14,7 +14,7 @@ if (!user || (user !== 'her' && user !== 'his')) {
     if (savedUser && (savedUser === 'her' || savedUser === 'his')) {
         user = savedUser;
     } else {
-        user = 'her';
+        user = 'his';
     }
     localStorage.setItem('pupunkas_user', user);
 }
