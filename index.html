@@ -319,6 +319,21 @@
             margin-bottom: 15px;
             flex-shrink: 0;
         }
+        /* Мобильная кнопка рандома (показывается только на мобильных) */
+        .mobile-random-btn {
+            display: none;
+            background: var(--btn-random-bg);
+            color: var(--btn-random-color);
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 550;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            margin-bottom: 15px;
+        }
+
         .expandable-add-form {
             display: none;
             background: var(--card-bg);
@@ -594,159 +609,296 @@
             border-radius: 30px;
         }
 
-@media (max-width: 768px) {
+        /* Мобильные стили */
+        @media (max-width: 768px) {
+            /* Скрываем фильтр и оригинальную кнопку рандома */
+            .filter-select, .filter-bar, .filter-bar .random-inline-btn {
+                display: none;
+            }
+            /* Показываем мобильную кнопку рандома */
+            .mobile-random-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            /* Кнопка "Добавить запись" и мобильный рандом в одну строку */
+            .add-toggle-btn, .mobile-random-btn {
+                width: calc(50% - 4px);
+                display: inline-flex;
+                margin-bottom: 15px;
+                font-size: 0.85rem;
+                padding: 12px;
+            }
+            .add-toggle-btn {
+                margin-right: 8px;
+            }
+            .add-toggle-btn, .mobile-random-btn {
+                width: calc(50% - 4px);
+            }
+            /* Контейнер для двух кнопок */
+            .buttons-row {
+                display: flex;
+                gap: 8px;
+                flex-shrink: 0;
+                margin-bottom: 15px;
+            }
 
-    .cat-fixed {
-        bottom: 8px;
-        z-index: 999;
-    }
-    .cat-left {
-        left: 8px;
-    }
-    .cat-right {
-        right: 8px;
-    }
-    .cat-avatar {
-        width: 60px !important;
-        height: 60px !important;
-        cursor: pointer;
-    }
-    .cat-name {
-        font-size: 0.65rem !important;
-        margin-top: 2px;
-    }
-    .cat-left .bubble {
-        left: 8px;
-        /* right: auto; */
-        transform: none;
-        bottom: 92px;
-    }
-    .cat-right .bubble {
-        right: 8px;
-        /* left: auto; */
-        transform: none;
-        bottom: 92px;
-    }
-   .cat-left .bubble:after {
-        left: 20% !important; 
-        transform: translateX(-50%) !important;
-    }
-    .cat-right .bubble:after {
-        left: auto !important;
-        right: 20% !important;    
-        transform: translateX(50%) !important;
-    }
-    .bubble {
-        max-width: calc(100vw - 90px); 
-        white-space: normal;
-        word-wrap: break-word;
-    }
-    .bubble .bubble-text {
-        font-size: 0.75rem;
-        padding: 4px 8px;
-        display: inline-block;
-        max-width: 100%;
-    }
-    h1 {
-        font-size: 1.8rem !important;
-        margin-top: 45px !important;
-        margin-bottom: 4px !important;
-    }
-    .sub {
-        font-size: 0.7rem !important;
-        margin-bottom: 10px !important;
-    }
-    .bg-switcher {
-        top: 10px !important;
-        left: 10px !important;
-        padding: 4px 8px !important;
-        gap: 4px !important;
-    }
-    .bg-btn {
-        width: 28px !important;
-        height: 28px !important;
-    }
-    .theme-toggle {
-        top: 10px !important;
-        right: 10px !important;
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 1rem !important;
-    }
-    .tabs {
-        gap: 6px;
-        padding: 4px;
-        margin-bottom: 12px;
-    }
-    .tab {
-        font-size: 0.7rem;
-        padding: 6px 4px;
-    }
-    .add-toggle-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-        border-radius: 60px;
-    }
-    .filter-bar {
-        flex-direction: row !important; 
-        flex-wrap: wrap;
-        gap: 8px;
-        /* margin-bottom: 12px; */
-    }
-    .filter-select {
-        flex: 2; 
-        width: auto !important;
-        /* padding: 10px 12px;
-        font-size: 0.8rem; */
-    }
-    .random-inline-btn {
-        flex: 1;                
-        width: auto !important;
-        white-space: nowrap;
-        /* width: 100%;
-        padding: 10px;
-        font-size: 0.8rem;
-        text-align: center;
-        justify-content: center; */
-    }
-    .inline-add-form {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-    }
-    .inline-add-form input {
-        flex: 2;
-        min-width: 120px;
-        padding: 10px 12px;
-        font-size: 0.85rem;
-    }
-    .inline-add-form select {
-        flex: 1;
-        min-width: 100px;
-        padding: 10px 12px;
-        font-size: 0.85rem;
-    }
-    .inline-add-btn {
-        width: 100%;
-        padding: 10px;
-        font-size: 0.85rem;
-        margin-top: 4px;
-    }
-    .list li {
-        padding: 10px 12px;
-    }
-    .item-name {
-        font-size: 0.85rem;
-    }
-    .done-btn, .delete-btn {
-        padding: 6px 10px;
-        font-size: 0.7rem;
-    }
-}
+            /* Котики */
+            .cat-fixed {
+                bottom: 8px;
+                z-index: 999;
+            }
+            .cat-left { left: 8px; }
+            .cat-right { right: 8px; }
+            .cat-avatar {
+                width: 60px !important;
+                height: 60px !important;
+                cursor: pointer;
+            }
+            .cat-name {
+                font-size: 0.65rem !important;
+                margin-top: 2px;
+            }
+            /* Облачки */
+            .cat-left .bubble {
+                left: 8px;
+                transform: none;
+                bottom: 92px;
+            }
+            .cat-right .bubble {
+                right: 8px;
+                transform: none;
+                bottom: 92px;
+            }
+            .cat-left .bubble:after {
+                left: 20% !important;
+                transform: translateX(-50%) !important;
+            }
+            .cat-right .bubble:after {
+                left: auto !important;
+                right: 20% !important;
+                transform: translateX(50%) !important;
+            }
+            .bubble {
+                max-width: calc(100vw - 90px);
+                white-space: normal;
+                word-wrap: break-word;
+            }
+            .bubble .bubble-text {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+                display: inline-block;
+                max-width: 100%;
+            }
+
+            /* Tabs внизу между котиками */
+            @media (max-width: 768px) {
+                /* Табы – в потоке над кнопками */
+                .tabs {
+                    position: static;
+                    transform: none;
+                    width: 100%;
+                    margin-bottom: 15px;
+                    background: var(--tabs-bg);
+                    border-radius: 100px;
+                    padding: 6px;
+                    gap: 6px;
+                }
+                .tab {
+                    font-size: 0.7rem;
+                    padding: 6px 8px;
+                    white-space: nowrap;
+                }
+
+                /* Переключатель фонов – внизу между котиками */
+                .bg-switcher {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    top: auto;
+                    right: auto;
+                    background: var(--card-bg);
+                    backdrop-filter: blur(8px);
+                    padding: 6px 12px;
+                    border-radius: 60px;
+                    z-index: 1001;
+                    display: flex;
+                    gap: 8px;
+                    flex-direction: row;
+                    width: auto;
+                    box-shadow: var(--shadow);
+                }
+                .bg-btn {
+                    width: 36px !important;
+                    height: 36px !important;
+                }
+
+                /* При открытой форме скрываем и кружки фона, и котиков */
+                body.form-open .bg-switcher {
+                    display: none;
+                }
+
+                /* Котики (уже были) */
+                .cat-fixed {
+                    bottom: 8px;
+                    z-index: 999;
+                }
+                .cat-left { left: 8px; }
+                .cat-right { right: 8px; }
+                .cat-avatar {
+                    width: 60px !important;
+                    height: 60px !important;
+                    cursor: pointer;
+                }
+                .cat-name {
+                    font-size: 0.65rem !important;
+                    margin-top: 2px;
+                }
+
+                /* Облачки */
+                .cat-left .bubble {
+                    left: 8px;
+                    transform: none;
+                    bottom: 92px;
+                }
+                .cat-right .bubble {
+                    right: 8px;
+                    transform: none;
+                    bottom: 92px;
+                }
+                .cat-left .bubble:after {
+                    left: 20% !important;
+                    transform: translateX(-50%) !important;
+                }
+                .cat-right .bubble:after {
+                    left: auto !important;
+                    right: 20% !important;
+                    transform: translateX(50%) !important;
+                }
+                .bubble {
+                    max-width: calc(100vw - 90px);
+                    white-space: normal;
+                    word-wrap: break-word;
+                }
+                .bubble .bubble-text {
+                    font-size: 0.75rem;
+                    padding: 4px 8px;
+                    display: inline-block;
+                    max-width: 100%;
+                }
+
+                /* Кнопки "Добавить запись" и "Рандом" в одну строку (уже есть) */
+                .filter-select, .filter-bar .random-inline-btn {
+                    display: none;
+                }
+                .mobile-random-btn {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+                    width: 100%;
+                    margin-bottom: 15px;
+                }
+                .add-toggle-btn, .mobile-random-btn {
+                    width: calc(50% - 4px);
+                    display: inline-flex;
+                    margin-bottom: 15px;
+                    font-size: 0.85rem;
+                    padding: 12px;
+                }
+                .add-toggle-btn {
+                    margin-right: 8px;
+                }
+                .buttons-row {
+                    display: flex;
+                    gap: 8px;
+                    flex-shrink: 0;
+                    margin-bottom:  0 !important;
+                }
+
+                /* Форма поверх контента */
+                body.form-open .cat-fixed {
+                    display: none;
+                }
+                .expandable-add-form.show {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 90%;
+                    max-width: 400px;
+                    z-index: 10002;
+                    margin: 0;
+                    background: var(--modal-bg);
+                    backdrop-filter: blur(16px);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                }
+                body.form-open::before {
+                    content: '';
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.6);
+                    backdrop-filter: blur(4px);
+                    z-index: 10001;
+                }
+
+                /* Заголовки и остальные элементы */
+                h1 {
+                    font-size: 1.8rem !important;
+                    margin-top: 10px !important;
+                    margin-bottom: 4px !important;
+                }
+                .sub {
+                    font-size: 0.7rem !important;
+                    margin-bottom: 10px !important;
+                }
+                .theme-toggle {
+                    top: 10px !important;
+                    right: 10px !important;
+                    width: 36px !important;
+                    height: 36px !important;
+                    font-size: 1rem !important;
+                }
+                .inline-add-form {
+                    flex-direction: column;
+                    gap: 8px;
+                }
+                .inline-add-form input, .inline-add-form select {
+                    width: 100%;
+                    min-width: auto;
+                }
+                .inline-add-btn {
+                    width: 100%;
+                    margin-top: 4px;
+                }
+                .list {
+                    padding-bottom: 120px; 
+                    margin-bottom: 0;
+                }
+                .list li {
+                    padding: 10px 12px;
+                }
+                .item-name {
+                    font-size: 0.85rem;
+                }
+                .done-btn, .delete-btn {
+                    padding: 6px 10px;
+                    font-size: 0.7rem;
+                }
+
+                /* Убираем лишний padding-bottom, который был для fixed tabs */
+                .content-wrapper {
+                    padding-bottom: 0;
+                }
+
+        }
     </style>
 </head>
 <body class="bg-room">
@@ -764,7 +916,12 @@
                 <button class="tab" data-tab="places">🏞️ Места и отдых</button>
             </div>
 
-            <button class="add-toggle-btn" id="globalAddBtn">➕ Добавить запись</button>
+            <!-- Контейнер для кнопок (мобильная версия) -->
+            <div class="buttons-row">
+                <button class="add-toggle-btn" id="globalAddBtn">➕ Добавить запись</button>
+                <button class="mobile-random-btn" id="mobileRandomBtn">🎲 Рандом</button>
+            </div>
+
             <div class="expandable-add-form" id="globalAddForm">
                 <div class="inline-add-form" id="dynamicAddForm"></div>
             </div>
@@ -1035,12 +1192,16 @@
             renderFilms();
         });
 
-        document.getElementById('randomFilmBtn').addEventListener('click', () => {
+        // Функция для случайного фильма
+        function handleRandomFilm() {
             const active = films.filter(i => !i.done);
             if (!active.length) { alert('Нет активных фильмов'); return; }
             const rand = active[Math.floor(Math.random() * active.length)];
             alert(`🎉 ${rand.name} (${rand.genre})\n✨ Добавил: ${rand.author === 'her' ? 'Влада' : 'Никита'}`);
-        });
+        }
+
+        document.getElementById('randomFilmBtn').addEventListener('click', handleRandomFilm);
+        document.getElementById('mobileRandomBtn').addEventListener('click', handleRandomFilm);
 
         function updateAddForm() {
             if (activeTab === 'films') {
@@ -1084,7 +1245,7 @@
                         await addItem(placesCol, name);
                     }
                     if (input) input.value = '';
-                    globalAddForm.classList.remove('show');
+                    closeForm();
                 };
             }
             if (input) {
@@ -1092,11 +1253,31 @@
             }
         }
 
+        function closeForm() {
+            globalAddForm.classList.remove('show');
+            document.body.classList.remove('form-open');
+        }
+
         document.getElementById('globalAddBtn').addEventListener('click', () => {
-            updateAddForm();
-            globalAddForm.classList.toggle('show');
             if (globalAddForm.classList.contains('show')) {
+                closeForm();
+            } else {
+                updateAddForm();
+                globalAddForm.classList.add('show');
+                // На мобильных добавляем класс для скрытия котиков
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('form-open');
+                }
                 setTimeout(() => document.getElementById('newItemInput')?.focus(), 100);
+            }
+        });
+
+        // Закрытие формы при клике на фон (только для мобильной версии)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && globalAddForm.classList.contains('show')) {
+                if (!globalAddForm.contains(e.target) && e.target !== document.getElementById('globalAddBtn')) {
+                    closeForm();
+                }
             }
         });
 
