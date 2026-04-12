@@ -747,6 +747,12 @@
                 z-index: auto;
             }
 
+            body.form-open .bg-switcher,
+            body.form-open .cat-fixed,
+            body.form-open .bubble {
+                display: none;
+            }
+
             /* Остальные стили */
             h1 {
                 font-size: 1.8rem !important;
@@ -1150,6 +1156,7 @@
 
         function closeForm() {
             globalAddForm.classList.remove('show');
+            document.body.classList.remove('form-open');
         }
 
         document.getElementById('globalAddBtn').addEventListener('click', () => {
@@ -1158,7 +1165,7 @@
             } else {
                 updateAddForm();
                 globalAddForm.classList.add('show');
-                // Добавляем класс только для стилей, но без затемнения
+                document.body.classList.add('form-open');
                 setTimeout(() => document.getElementById('newItemInput')?.focus(), 100);
             }
         });
