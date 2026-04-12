@@ -732,61 +732,29 @@ h1 {
     color: var(--delete-btn-color);
 }
 
-/* Мобильные улучшения */
+/* Мобильный свайп */
 @media (max-width: 768px) {
-    .cat-avatar { width: 70px; height: 70px; }
-    .bubble { 
-        min-width: 120px; 
-        max-width: 180px; 
-        padding: 8px 12px; 
-        bottom: 95px;
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) !important;
+    .swipe-container {
+        display: flex;
+        width: 300%;
+        height: 100%;
+        transition: transform 0.3s ease-out;
     }
-    .cat-left .bubble, .cat-right .bubble {
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%) !important;
+    
+    .swipe-page {
+        width: 33.33%;
+        height: 100%;
+        overflow-y: auto;
     }
-    .bubble:after {
-        left: 50% !important;
-        right: auto !important;
-        transform: translateX(-50%);
+    
+    /* Скрываем старых котиков */
+    .cat-fixed {
+        display: none !important;
     }
-    .bg-switcher { 
-        top: auto; 
-        bottom: 20px; 
-        left: 50%; 
-        transform: translateX(-50%);
-        z-index: 1002;
+    
+    /* Стили для точек индикатора */
+    .swipe-dot {
+        cursor: pointer;
+        transition: all 0.2s;
     }
-    .theme-toggle {
-        top: auto;
-        bottom: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-        z-index: 1002;
-    }
-    .avatar-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .avatar-option img { width: 60px; height: 60px; }
-    .filter-bar { flex-wrap: wrap; }
-    .random-inline-btn { flex-shrink: 0; }
-    h1 { font-size: 2.5rem; }
-    .sub { font-size: 1rem; margin-bottom: 15px; }
-    .app { padding: 15px; padding-bottom: 85px; }
-    .tabs { margin-bottom: 15px; }
-    .add-toggle-btn { margin-bottom: 10px; }
-}
-@media (max-width: 600px) {
-    .cat-avatar { width: 55px; height: 55px; }
-    .bubble { bottom: 80px; padding: 6px 10px; min-width: 100px; }
-    .inline-add-form { flex-direction: column; }
-    .inline-add-btn { width: 100%; }
-    .filter-bar { flex-direction: column; align-items: stretch; }
-    .random-inline-btn { width: 100%; text-align: center; }
-    h1 { font-size: 2rem; }
-    .app { padding-bottom: 75px; }
 }
